@@ -1,2 +1,2 @@
-"My readme file" > README.md
+"My readme file" 
 
