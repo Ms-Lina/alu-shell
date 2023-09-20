@@ -1,2 +1,2 @@
-# alu-shell
-This file exists and it's not empty
+"My readme file" > README.md
+
