@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# This script displays the time for 12 hours and 59 minutes.
+
+# Initialize variables for hours and minutes
+hour=0
+minute=1
+
+# Loop to display time
+while [ $hour -le 12 ]; do
+    while [ $minute -le 59 ]; do
+        # Format the time with leading zeros if needed
+        formatted_hour=$(printf "%02d" $hour)
+        formatted_minute=$(printf "%02d" $minute)
+        
+        # Display the time
+        echo "$formatted_hour:$formatted_minute"
+        
+        # Increment the minute
+        ((minute++))
+    done
+    
+    # Reset minute and increment hour
+    minute=0
+    ((hour++))
+done
