@@ -21,4 +21,3 @@ do
     # Increment the counter
     ((counter++))
 done
-

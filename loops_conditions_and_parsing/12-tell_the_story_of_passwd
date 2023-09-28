@@ -1,30 +1,21 @@
 #!/usr/bin/env bash
-# This script displays information about each user from /etc/passwd using IFS.
+# This script displays user information from /etc/passwd in a specific format.
 
-# Define the path to the /etc/passwd file
+# Define the path to the passwd file
 passwd_file="/etc/passwd"
 
-# Check if the file exists
+# Check if the passwd file exists
 if [ -e "$passwd_file" ]; then
-    # Read the /etc/passwd file line by line using a while loop and IFS
-    while IFS=: read -r username _ uid gid gecos home shell; do
-        # Split the gecos field into its individual parts
+    # Read the passwd file line by line using a while loop and IFS
+    while IFS=: read -r username password uid gid gecos home shell; do
+        # Splitting gecos field into parts
         IFS=',' read -ra gecos_parts <<< "$gecos"
         full_name="${gecos_parts[0]}"
         group="${gecos_parts[1]}"
         comment="${gecos_parts[2]}"
-        
-        # Extract additional user information
-        IFS=' ' read -ra comment_parts <<< "$comment"
-        password="${comment_parts[1]}"
-        info="${comment_parts[2]}"
-        
-        # Display the user information
-        echo "The user $username is part of the group $gid gang,"
-        echo "lives in $home and rides $shell."
-        echo "USER ID's place is protected by the passcode $password,"
-        echo "more info about the user here: $info"
-        echo
+
+        # Displaying the formatted user information
+        echo "The user $username is part of the $gid gang, lives in $home and rides $shell. $uid's place is protected by the passcode $password, more info about the user here: $comment"
     done < "$passwd_file"
 else
     echo "Error: $passwd_file does not exist."
