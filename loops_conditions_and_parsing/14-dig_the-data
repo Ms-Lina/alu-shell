@@ -1,13 +1,19 @@
 #!/usr/bin/env bash
-# This script groups visitors by IP and HTTP status code and displays the data.
-
-# Define the path to the log file
-log_file="access.log"
 
 # Check if the log file exists
-if [ -e "$log_file" ]; then
-    # Use awk to group visitors by IP and HTTP status code, count occurrences, and format the output
-    awk '{ count[$1" "$9]++ } END { for (key in count) print count[key], key }' "$log_file" | sort -nr | head -n 10
-else
-    echo "Error: $log_file does not exist."
+log_file="apache-access.log"
+if [ ! -e "$log_file" ]; then
+    echo "Error: Log file '$log_file' not found."
+    exit 1
 fi
+
+# Use awk to process the log file and group visitors by IP and HTTP status code
+awk '{ ip[$1]++; http_code[$9]++; }
+     END {
+        # Print the grouped data in the desired format
+        for (i in ip) {
+            for (j in http_code) {
+                printf "%5d %s %s\n", ip[i], i, j;
+            }
+        }
+     }' "$log_file" | sort -nr

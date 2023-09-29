@@ -1,15 +1,19 @@
 #!/usr/bin/env bash
 # This script displays the content of the current directory in a list format,
-# showing only the part of the name after the first dash for non-hidden files.
+# showing only the part of the name after the first dash for non-hidden files
+# and replaces dashes with underscores.
 
 # Loop through the files in the current directory
 for file in *; do
     # Check if the file is not hidden (doesn't start with a dot)
     if [[ ! "$file" == .* ]]; then
-        # Use awk to extract the part of the name after the first dash
-        name_after_dash=$(echo "$file" | awk -F'-' '{print $2}')
+        # Use parameter expansion to extract the part of the name after the first dash
+        name_after_dash="${file#*-}"
+        
+        # Replace dashes with underscores
+        modified_name="${name_after_dash//-/_}"
         
         # Display the modified file name (or the original if there's no dash)
-        echo "$name_after_dash"
+        echo "$modified_name"
     fi
 done

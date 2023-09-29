@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# This script displays user information from /etc/passwd in a specific format.
+# This script displays user information from /etc/passwd in the specified format.
 
 # Define the path to the passwd file
 passwd_file="/etc/passwd"
