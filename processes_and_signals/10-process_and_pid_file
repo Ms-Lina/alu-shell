@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# Bash script with signal handling.
+
+# Function to clean up and exit
+cleanup() {
+  echo "Cleaning up..."
+  rm -f "/var/run/myscript.pid"
+  exit
+}
+
+# Create the PID file
+echo "$$" > "/var/run/myscript.pid"
+
+# Handle SIGTERM and SIGQUIT signals
+trap 'cleanup' SIGTERM SIGQUIT
+
+# Handle SIGINT signal
+trap 'echo "Y U no love me?!"' SIGINT
+
+# Handle SIGTERM signal
+trap 'echo "I hate the kill command"; cleanup' SIGTERM
+
+# Display messages
+while true; do
+  echo "To infinity and beyond indefinitely"
+  sleep 2
+done
+
