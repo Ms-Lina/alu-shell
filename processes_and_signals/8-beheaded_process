@@ -12,5 +12,3 @@ if [ -n "$pid" ]; then
     echo "Failed to kill the '7-highlander' process with PID $pid"
   fi
 else
-  echo "Process '7-highlander' not found"
-fi

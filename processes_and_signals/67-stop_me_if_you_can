@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Stop the '7-highlander' process without using kill or killall.
+
+# Use pkill to find and terminate the '7-highlander' process
+pkill -f "7-highlander"
+
+# Check if the process is still running
+if ps -C "7-highlander" > /dev/null; then
+  echo "Failed to stop '7-highlander' process"
+else
+  echo "Successfully stopped '7-highlander' process"
+fi

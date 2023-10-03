@@ -1,16 +1,12 @@
 #!/usr/bin/env bash
-# Attempt to stop the "4-to_infinity_and_beyond" process gracefully.
+# Stop the '4-to_infinity_and_beyond' process without using kill or killall.
 
-# Find the PID of the "4-to_infinity_and_beyond" process
-pid=$(pgrep -f "4-to_infinity_and_beyond")
+# Use pkill to find and terminate the '4-to_infinity_and_beyond' process
+pkill -f "4-to_infinity_and_beyond"
 
-if [ -n "$pid" ]; then
-  # Send a SIGINT (interrupt) signal to the process
-  if kill -SIGINT "$pid"; then
-    echo "Sent SIGINT to process '4-to_infinity_and_beyond' with PID $pid"
-  else
-    echo "Failed to send SIGINT to process '4-to_infinity_and_beyond' with PID $pid"
-  fi
+# Check if the process is still running
+if ps -C "4-to_infinity_and_beyond" > /dev/null; then
+  echo "Failed to stop '4-to_infinity_and_beyond' process"
 else
-  echo "Process '4-to_infinity_and_beyond' not found"
+  echo "Successfully stopped '4-to_infinity_and_beyond' process"
 fi

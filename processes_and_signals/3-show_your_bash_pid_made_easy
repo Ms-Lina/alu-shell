@@ -4,19 +4,14 @@
 # Get the PID of the script itself
 script_pid=$$
 
-# Iterate over each process directory in /proc
-for pid_dir in /proc/*/; do
-  # Extract the PID from the directory path
-  pid=$(basename "$pid_dir")
-  
-  # Skip if it's the script's own PID or not a numeric value
-  if [[ "$pid" != "$script_pid" && "$pid" =~ ^[0-9]+$ ]]; then
-    # Get the process name from the cmdline file
-    process_name=$(cat "$pid_dir/cmdline" 2>/dev/null)
-    
-    # Check if the process name contains "bash"
-    if [[ "$process_name" =~ .*bash.* ]]; then
-      echo "$pid $process_name"
-    fi
+# Use pgrep to find PIDs of processes containing "bash"
+bash_pids=$(pgrep -f bash)
+
+# Iterate over each found PID and display the PID and process name
+for pid in $bash_pids; do
+  # Exclude the PID of this script to avoid self-reference
+  if [ "$pid" -ne "$script_pid" ]; then
+    process_name=$(tr -d '\0' < "/proc/$pid/cmdline")
+    echo "$pid $process_name"
   fi
 done
