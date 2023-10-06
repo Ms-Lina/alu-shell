@@ -1,19 +1,10 @@
 #!/usr/bin/env bash
+# Parses Apache log files in list format.
+#   Groups visitors by IP and HTTP status code.
+#   Displays the number of occurrences, IP, and HTTP status
+#+  code of each log, in sorted order.
 
-# Check if the log file exists
-log_file="apache-access.log"
-if [ ! -e "$log_file" ]; then
-    echo "Error: Log file '$log_file' not found."
-    exit 1
+file_name="apache-access.log"
+if test -f $file_name; then
+  awk '{print $1,$9}' $file_name | sort | uniq -c | sort -gr
 fi
-
-# Use awk to process the log file and group visitors by IP and HTTP status code
-awk '{ ip[$1]++; http_code[$9]++; }
-     END {
-        # Print the grouped data in the desired format
-        for (i in ip) {
-            for (j in http_code) {
-                printf "%5d %s %s\n", ip[i], i, j;
-            }
-        }
-     }' "$log_file" | sort -nr
